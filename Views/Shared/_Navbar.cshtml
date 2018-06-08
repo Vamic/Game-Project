@@ -1,0 +1,40 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Ajax.ActionLink("Application name", "Index", htmlAttributes: new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    @Ajax.ActionLink("Home", "Index")
+                </li>
+                @*<li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>*@
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    @Ajax.ActionLink(User.Identity.GetDisplayName(), "Index")
+                </li>
+                <li>
+                    @Ajax.ActionLink("Log Out", "Logout", onComplete: "onLogout")
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Ajax.ActionLink("Log In", "Login")
+                </li>
+
+            }
+        }
+            </ul>
+        </div>
+    </div>
+</div>

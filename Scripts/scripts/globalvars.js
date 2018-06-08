@@ -1,0 +1,1 @@
+﻿var tokenKey = "AuthToken"; //Key the token gets stored under in the session

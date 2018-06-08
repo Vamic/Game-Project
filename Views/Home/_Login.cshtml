@@ -1,0 +1,13 @@
+﻿@model LoginBindingModel
+
+<h2>Login</h2>
+@using (Ajax.BeginForm(new AjaxOptions {
+    Url = "/Token",
+    OnComplete = "onToken"
+}))
+{
+    @Html.Hidden("grant_type", "password");
+    @Html.EditorForModel();
+    <input type="submit" value="Login" />
+}
+@Ajax.ActionLink("Register", "Register")

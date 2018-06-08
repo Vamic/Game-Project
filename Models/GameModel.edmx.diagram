@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9191684f438a4756ae63d91f2ca0d4db" Name="Diagram1" ZoomLevel="88" >
+        <EntityTypeShape EntityType="GameModel.IdentityRole" Width="1.5" PointX="0.5" PointY="21.125" />
+        <EntityTypeShape EntityType="GameModel.IdentityUserRole" Width="1.5" PointX="0.625" PointY="18.875" />
+        <EntityTypeShape EntityType="GameModel.ApplicationUser" Width="1.5" PointX="2.625" PointY="20.75" />
+        <EntityTypeShape EntityType="GameModel.IdentityUserClaim" Width="1.5" PointX="0.625" PointY="25.75" />
+        <EntityTypeShape EntityType="GameModel.IdentityUserLogin" Width="1.5" PointX="0.5" PointY="23.25" />
+        <EntityTypeShape EntityType="GameModel.Gladiator" Width="1.5" PointX="7.25" PointY="19" />
+        <EntityTypeShape EntityType="GameModel.GameUser" Width="1.5" PointX="4.75" PointY="19.125" />
+        <AssociationConnector Association="GameModel.IdentityRole_Users" />
+        <AssociationConnector Association="GameModel.ApplicationUser_Claims" />
+        <AssociationConnector Association="GameModel.ApplicationUser_Logins" />
+        <AssociationConnector Association="GameModel.ApplicationUser_Roles" />
+        <AssociationConnector Association="GameModel.GameUserGladiator" />
+        <InheritanceConnector EntityType="GameModel.GameUser" />
+        <EntityTypeShape EntityType="GameModel.Match" Width="1.5" PointX="7.5" PointY="22.75" />
+        <EntityTypeShape EntityType="GameModel.Turn" Width="1.5" PointX="9.625" PointY="22.625" />
+        <AssociationConnector Association="GameModel.MatchTurn" />
+        <AssociationConnector Association="GameModel.MatchGladiator" />
+        <EntityTypeShape EntityType="GameModel.Score" Width="1.5" PointX="10.25" PointY="19.125" />
+        <AssociationConnector Association="GameModel.ScoreGladiator" />
+        <AssociationConnector Association="GameModel.ScoreGameUser" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
