@@ -10,14 +10,16 @@ namespace GameProject.Models
 {
     public static class HelperExtensions
     {
-        public static MvcHtmlString ActionLink(this AjaxHelper ajaxHelper, string linkText, string actionName, string controllerName = "Home", object htmlAttributes = null, string httpMethod = "GET", string onComplete = null)
+        public static MvcHtmlString ActionLink(this AjaxHelper ajaxHelper, string linkText, string actionName,
+            string controllerName = "Home", object htmlAttributes = null, string httpMethod = "GET",
+            string onComplete = null, string updateId = "page-content")
         {
-            if (controllerName != "Home") controllerName = "api/" + controllerName;
+            if (controllerName == "Account") controllerName = "api/" + controllerName;
             var repID = Guid.NewGuid().ToString();
             var options = new AjaxOptions
             {
                 HttpMethod = httpMethod,
-                UpdateTargetId = "page-content",
+                UpdateTargetId = updateId,
                 InsertionMode = InsertionMode.Replace
             };
             if (onComplete != null) options.OnComplete = onComplete;
@@ -29,7 +31,21 @@ namespace GameProject.Models
             return MvcHtmlString.Create(lnk.ToString().Replace(repID, linkText));
         }
 
-        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, string actionName, string onComplete, string controllerName = "Account", string httpMethod = "POST")
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, string actionName, string controllerName,
+            string httpMethod = "POST", string updateId = "page-content", string onComplete = null)
+        {
+            var options = new AjaxOptions
+            {
+                HttpMethod = httpMethod,
+                UpdateTargetId = updateId,
+                InsertionMode = InsertionMode.Replace
+            };
+            if (onComplete != null) options.OnComplete = onComplete;
+
+            return ajaxHelper.BeginForm(actionName, controllerName, null, options, null);
+        }
+
+        public static MvcForm BeginApiForm(this AjaxHelper ajaxHelper, string actionName, string onComplete, string controllerName = "Account", string httpMethod = "POST")
         {
             controllerName = "api/" + controllerName;
             var options = new AjaxOptions

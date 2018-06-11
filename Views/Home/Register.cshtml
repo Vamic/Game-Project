@@ -1,7 +1,7 @@
 ﻿@model RegisterBindingModel
 
 <h2>Register</h2>
-@using (Ajax.BeginForm("Register", "onRegister"))
+@using (Ajax.BeginApiForm("Register", "onRegister"))
 {
     @Html.AntiForgeryToken();
     @Html.EditorForModel();

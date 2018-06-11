@@ -23,7 +23,8 @@ namespace GameProject
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                         "~/Scripts/scripts/globalvars.js",
                         "~/Scripts/scripts/requests.js",
-                        "~/Scripts/scripts/account.js"));
+                        "~/Scripts/scripts/account.js",
+                        "~/Scripts/scripts/gladiators.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",

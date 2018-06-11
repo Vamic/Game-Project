@@ -1,0 +1,21 @@
+﻿@model GladiatorColumnViewModel
+
+<div class="col-sm-4 gladiator-col-container" id="@Model.ColumnId">
+    <div class="gladiator-col">
+        @if (Model.Gladiator != null)
+        {
+            <h3>@Model.Gladiator.Name <small>Level @Model.Gladiator.Level</small></h3>
+            <div>@Model.Gladiator.Health / @Model.Gladiator.MaxHealth HP</div>
+            <div>@Model.Gladiator.Experience / 1000 EXP</div>
+            <div>
+                <p>Stats</p>
+                <p>Wins: @Model.Gladiator.Wins</p>
+                <p>Losses: @Model.Gladiator.Losses</p>
+            </div>
+        }
+        else
+        {
+            <h3>@Ajax.ActionLink("Create new", "Create", "Gladiators", updateId: Model.ColumnId)</h3>
+        }
+    </div>
+</div>

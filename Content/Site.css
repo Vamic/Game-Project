@@ -15,3 +15,26 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.gladiator-col-container {
+    margin-top: 20px;
+    padding: 0, 2%;
+}
+
+.gladiator-col {
+    background-color: whitesmoke;
+    border: solid 2px black;
+    padding: 20px;
+}
+
+    .gladiator-col > h3 {
+        margin-top: 0px;
+    }
+
+    .gladiator-col > div {
+        margin-bottom: 20px;
+    }
+
+    .gladiator-col > div:last-of-type {
+        margin-bottom: 0;
+    }

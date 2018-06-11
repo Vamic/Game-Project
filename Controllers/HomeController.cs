@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,9 +14,9 @@ namespace GameProject.Controllers
             ViewBag.Title = "Home Page";
             if (Request.IsAjaxRequest())
             {
-                return Request.IsAuthenticated ? PartialView() : PartialView("_Login");
+                return Request.IsAuthenticated ? PartialView() : PartialView("Login");
             }
-            return Request.IsAuthenticated ? View() : View("_Login");
+            return Request.IsAuthenticated ? View() : View("Login");
         }
 
         public ActionResult Navbar()
@@ -27,14 +28,14 @@ namespace GameProject.Controllers
         {
             ViewBag.Title = "Login";
 
-            return PartialView("_Login");
+            return PartialView();
         }
 
         public ActionResult Register()
         {
             ViewBag.Title = "Register";
 
-            return PartialView("_Register");
+            return PartialView();
         }
 
         [Authorize]

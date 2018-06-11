@@ -1,0 +1,13 @@
+﻿@model Gladiator[]
+
+<h2>Gladiators</h2>
+
+<div class="row">
+    @for (int i = 0; i < 3; i++)
+    {
+
+        Gladiator gladiator = Model.Length > i ? Model[i] : null;
+        string colId = "gladiator-col-" + i;
+        Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = gladiator, ColumnId = colId });
+    }
+</div>
