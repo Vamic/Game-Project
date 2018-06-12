@@ -1,13 +1,41 @@
-﻿@model Gladiator[]
+﻿@model GladiatorOpponentsViewModel
+@if (User.IsInRole("Admin"))
+{
+    @*Add null in the first position to always have an option to create another Gladiator*@
+    Model.Opponents.Insert(0, null);
+}
+
 
 <h2>Gladiators</h2>
 
 <div class="row">
     @for (int i = 0; i < 3; i++)
     {
-
-        Gladiator gladiator = Model.Length > i ? Model[i] : null;
+        Gladiator gladiator = Model.Gladiators.Count > i ? Model.Gladiators[i] : null;
         string colId = "gladiator-col-" + i;
         Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = gladiator, ColumnId = colId });
     }
 </div>
+
+@if (User.IsInRole("Admin"))
+{
+    <h2>Opponents</h2>
+    for (int i = 0; i < Model.Opponents.Count; i++)
+    {
+        @*New row after 3 gladiators*@
+        if (i % 3 == 0)
+        {
+            @:<div class="row">
+            }
+
+            Gladiator opponent = Model.Opponents[i];
+            string colId = "opponent-col-" + i;
+            Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = opponent, ColumnId = colId });
+
+            @*Close row after 3 gladiators*@
+            if (i % 3 == 2 || i == Model.Opponents.Count - 1)
+            {
+            @:</div>
+        }
+    }
+}

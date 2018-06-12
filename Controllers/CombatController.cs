@@ -9,42 +9,42 @@ using Microsoft.AspNet.Identity;
 namespace GameProject.Controllers
 {
     [Authorize]
-    public class GladiatorsController : Controller
+    public class CombatController : Controller
     {
         public ActionResult Index()
         {
             string userId = User.Identity.GetUserId();
+            Match match = GladiatorHandler.GetActiveMatch(userId);
+            return PartialView(match);
+        }
+
+        public ActionResult CreateMatch()
+        {
+            string userId = User.Identity.GetUserId();
             GladiatorOpponentsViewModel model = new GladiatorOpponentsViewModel
             {
-                Gladiators = GladiatorHandler.GetCurrentGladiators(userId)
+                Gladiators = GladiatorHandler.GetCurrentGladiators(userId),
+                Opponents = GladiatorHandler.GetRandomOpponents()
             };
-            if (User.IsInRole("Admin"))
-                model.Opponents = GladiatorHandler.GetOpponents(userId);
-            return PartialView(model);
+            return PartialView("_NewMatch", model);
         }
 
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return PartialView(new GladiatorBindingModel());
-        }
-
-        public ActionResult PostCreate([Bind(Include = "Name, IsNPC")]GladiatorBindingModel model)
+        [HttpPost]
+        public ActionResult CreateMatch([Bind(Include = "GladiatorID, OpponentID")]MatchBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 var errorList = ModelState.Values.SelectMany(m => m.Errors)
                                  .Select(e => e.ErrorMessage)
                                  .ToList();
-                
+
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(errorList);
             }
-            //Opponents can only be made by admins.
-            if (!User.IsInRole("Admin")) model.IsNPC = false;
 
             string userId = User.Identity.GetUserId();
-            return GladiatorHandler.CreateGladiator(model, userId);
+            GladiatorHandler.CreateMatch(model, userId);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -17,11 +17,12 @@ namespace GameProject.Models
         public int Health { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }
-        [Required]
         public bool IsNPC { get; set; }
 
         public string OwnerId { get; set; }
         public virtual ApplicationUser Owner { get; set; }
+
+        public virtual List<Match> Matches { get; set; }
 
         public Gladiator()
         {

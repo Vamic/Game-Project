@@ -1,6 +1,6 @@
 ﻿@model GladiatorBindingModel
 
-@using (Ajax.BeginForm("PostCreate", "Gladiators", onComplete: "onCreate"))
+@using (Ajax.BeginForm("PostCreate", "Gladiators", new AjaxOptions { OnComplete = "onCreate" }))
 {
     @Html.AntiForgeryToken();
 <div class="gladiator-col">
@@ -16,7 +16,7 @@
     </div>
     }
     <div>
-        <input type="submit" value="Create" />
+        <input class="btn btn-primary" type="submit" value="Create" />
     </div>
 </div>
 }

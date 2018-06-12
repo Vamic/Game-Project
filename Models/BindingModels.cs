@@ -18,4 +18,12 @@ namespace GameProject.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
     }
+
+    public class MatchBindingModel
+    {
+        [Required]
+        public int? GladiatorID { get; set; }
+
+        public int? OpponentID { get; set; }
+    }
 }

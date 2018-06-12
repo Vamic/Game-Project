@@ -236,6 +236,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CombatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GladiatorsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -244,6 +245,8 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BindingModels.cs" />
+    <Compile Include="Models\Game\Turn.cs" />
+    <Compile Include="Models\Game\Match.cs" />
     <Compile Include="Models\Game\Gladiator.cs" />
     <Compile Include="Models\GladiatorBindingModel.cs" />
     <Compile Include="Models\GladiatorHandler.cs" />
@@ -335,6 +338,8 @@
     <Content Include="Views\Gladiators\Index.cshtml" />
     <Content Include="Views\Gladiators\Create.cshtml" />
     <Content Include="Views\Gladiators\_Column.cshtml" />
+    <Content Include="Views\Combat\Index.cshtml" />
+    <Content Include="Views\Combat\_NewMatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

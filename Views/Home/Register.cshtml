@@ -6,6 +6,6 @@
     @Html.AntiForgeryToken();
     @Html.EditorForModel();
     @Html.Hidden("returnUrl", (string)ViewBag.RedirectUrl);
-    <input type="submit" value="Register" />
+    <input class="btn btn-primary" type="submit" value="Register" />
 }
-@Ajax.ActionLink("Login", "Login")
+@Ajax.ActionLink("Login", "Login", htmlAttributes: new { @class = "btn btn-default" })

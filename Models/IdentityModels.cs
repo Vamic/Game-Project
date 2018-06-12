@@ -35,7 +35,8 @@ namespace GameProject.Models
         }
 
         public DbSet<Gladiator> Gladiators { get; set; }
-        
+        public DbSet<Match> Matches { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

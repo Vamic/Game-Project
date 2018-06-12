@@ -1,0 +1,26 @@
+﻿@model Match
+@if (Model == null)
+{
+    Html.RenderAction("CreateMatch");
+}
+else
+{
+    <div class="row">
+        <div class="col-sm-3">
+            <div>
+                <h2>@Model.Gladiator.Name</h2>
+            </div>
+            <div>buttonstuff</div>
+        </div>
+        <div class="col-sm-6">
+            <h2>Combat</h2>
+            <div>battlelog</div>
+        </div>
+        <div class="col-sm-3">
+            <div>
+                <h2>@Model.Opponent.Name</h2>
+            </div>
+            <div>buttonstuff</div>
+        </div>
+    </div>
+}

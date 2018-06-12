@@ -11,5 +11,18 @@ namespace GameProject.Models
 
         public string ColumnId { get; set; }
     }
-    
+
+    public class GladiatorOpponentsViewModel
+    {
+        public List<Gladiator> Gladiators { get; set; }
+
+        public List<Gladiator> Opponents { get; set; }
+    }
+
+    public class CombatViewModel
+    {
+        public Gladiator Gladiator { get; set; }
+
+        public Gladiator Opponent { get; set; }
+    }
 }

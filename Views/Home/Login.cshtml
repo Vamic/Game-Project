@@ -8,6 +8,6 @@
 {
     @Html.Hidden("grant_type", "password");
     @Html.EditorForModel();
-    <input type="submit" value="Login" />
+    <input class="btn btn-primary" type="submit" value="Login" />
 }
-@Ajax.ActionLink("Register", "Register")
+@Ajax.ActionLink("Register", "Register", htmlAttributes: new { @class = "btn btn-default" })
