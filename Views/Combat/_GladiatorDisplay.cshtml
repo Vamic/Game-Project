@@ -1,0 +1,20 @@
+﻿@model CombatGladiatorDisplayViewModel
+@{ 
+    int gtorHealthPercentage = (int)Math.Ceiling(((double)Model.Gladiator.Health / Model.Gladiator.MaxHealth) * 100);
+    //100-50% green, 49-10% yellow, 9-0% red;
+    string gtorProgressType = gtorHealthPercentage < 50 ? gtorHealthPercentage < 10 ? "danger" : "warning" : "success";
+    string HPDisplay = Model.Gladiator.Health + " HP";
+    if (Model.IsDead)
+    {
+        //100% to make the entire bar red
+        gtorHealthPercentage = 100;
+        HPDisplay = "DEAD";
+        gtorProgressType = "danger";
+    }
+}
+<div>
+    <h2>@Model.Gladiator.Name</h2>
+    <div class="progress">
+        <div class="progress-bar progress-bar-@gtorProgressType" style="width:@gtorHealthPercentage%">@HPDisplay</div>
+    </div>
+</div>

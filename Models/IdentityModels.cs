@@ -34,8 +34,24 @@ namespace GameProject.Models
         {
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Gladiator>()
+                .HasMany(g => g.MatchesAsGladiator)
+                .WithRequired(m => m.Gladiator)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Gladiator>()
+                .HasMany(g => g.MatchesAsOpponent)
+                .WithRequired(m => m.Opponent)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<Gladiator> Gladiators { get; set; }
         public DbSet<Match> Matches { get; set; }
+        public DbSet<Turn> Turns { get; set; }
 
         public static ApplicationDbContext Create()
         {

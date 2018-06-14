@@ -6,11 +6,11 @@
         <div class="col-sm-6 col-sm-offset-3">
             <div class="row text-center">
                 <div class="form-group col-sm-6">
-                    <label for="selected-gladiator">Select your Gladiator</label>
+                    <label class="block" for="selected-gladiator">Select your Gladiator</label>
                     @Html.ListBox("GladiatorID", Model.Gladiators.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() }).ToList(), new { id = "selected-gladiator" })
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="selected-opponent">Select your opponent</label>
+                    <label class="block" for="selected-opponent">Select your opponent</label>
                     @Html.ListBox("OpponentID", Model.Opponents.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() }).ToList(), new { id = "selected-opponent" })
                 </div>
                 <input class="btn btn-primary" type="submit" value="Fight" />

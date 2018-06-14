@@ -46,5 +46,28 @@ namespace GameProject.Controllers
             GladiatorHandler.CreateMatch(model, userId);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult Attack()
+        {
+            string userId = User.Identity.GetUserId();
+            Match match = GladiatorHandler.GetActiveMatch(userId);
+            if (match == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new string[] { "Tried to attack when there's no match." });
+            }
+            if (match.NextAttacker.Owner.Id != userId)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new string[] { "Not user's turn." });
+            }
+            GladiatorHandler.DoTurn(match);
+            //Make opponent attack back
+            if(match.Opponent.IsNPC)
+                GladiatorHandler.DoTurn(match);
+
+            return PartialView("Index", match);
+        }
     }
 }

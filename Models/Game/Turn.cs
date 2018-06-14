@@ -14,15 +14,24 @@ namespace GameProject.Models
         public int Damage { get; set; }
 
         public int Roll { get; set; }
-
+        
         public Match Match { get; set; }
+        
+        public int? AttackerID { get; set; }
+        
+        public int? RecieverID { get; set; }
 
-        public Gladiator Attacker { get; set; }
+        public virtual Gladiator Attacker { get; set; }
 
-        public Gladiator Reciever { get; set; }
+        public virtual Gladiator Reciever { get; set; }
 
-        public Turn()
+        public Turn() { }
+
+        public Turn(Match match, int? attackerID, int? recieverID)
         {
+            Match = match;
+            AttackerID = attackerID;
+            RecieverID = recieverID;
         }
     }
 }

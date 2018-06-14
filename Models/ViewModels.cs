@@ -25,4 +25,11 @@ namespace GameProject.Models
 
         public Gladiator Opponent { get; set; }
     }
+
+    public class CombatGladiatorDisplayViewModel
+    {
+        public Gladiator Gladiator { get; set; }
+
+        public bool IsDead { get; set; }
+    }
 }

@@ -5,22 +5,26 @@
 }
 else
 {
+    bool won = Model.Winner != null && Model.Winner == Model.Gladiator;
+    string title = Model.Winner != null ? won ? "Victory" : "Defeat" : "Combat";
+    //NPCs regain full health on defeat and they cannot yield so if you won against NPC they are dead.
+    bool opntDead = won && Model.Opponent.IsNPC || Model.Opponent.Health <= 0;
     <div class="row">
         <div class="col-sm-3">
+            @Html.Partial("_GladiatorDisplay", new CombatGladiatorDisplayViewModel { Gladiator = Model.Gladiator, IsDead = Model.Gladiator.Health <= 0 })
             <div>
-                <h2>@Model.Gladiator.Name</h2>
+                @Ajax.ActionLink("Attack", "Attack", "Combat", htmlAttributes: new { @class = "btn btn-primary" }, httpMethod: "POST")
             </div>
-            <div>buttonstuff</div>
         </div>
         <div class="col-sm-6">
-            <h2>Combat</h2>
+            <h2>@title</h2>
             <div>battlelog</div>
         </div>
         <div class="col-sm-3">
+            @Html.Partial("_GladiatorDisplay", new CombatGladiatorDisplayViewModel { Gladiator = Model.Opponent, IsDead = opntDead })
             <div>
-                <h2>@Model.Opponent.Name</h2>
+                @Ajax.ActionLink("Yield", "Yield", "Combat", htmlAttributes: new { @class="btn btn-danger" }, httpMethod: "POST")
             </div>
-            <div>buttonstuff</div>
         </div>
     </div>
 }

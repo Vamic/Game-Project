@@ -51,6 +51,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -249,6 +252,7 @@
     <Compile Include="Models\Game\Match.cs" />
     <Compile Include="Models\Game\Gladiator.cs" />
     <Compile Include="Models\GladiatorBindingModel.cs" />
+    <Compile Include="Models\CombatHandler.cs" />
     <Compile Include="Models\GladiatorHandler.cs" />
     <Compile Include="Models\HelperExtensions.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -340,6 +344,7 @@
     <Content Include="Views\Gladiators\_Column.cshtml" />
     <Content Include="Views\Combat\Index.cshtml" />
     <Content Include="Views\Combat\_NewMatch.cshtml" />
+    <Content Include="Views\Combat\_GladiatorDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

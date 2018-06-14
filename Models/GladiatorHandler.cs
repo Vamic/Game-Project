@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,25 +15,35 @@ namespace GameProject.Models
         public static List<Gladiator> GetCurrentGladiators(string userId)
         {
             //Gets all living gladiators for the user
-            return db.Gladiators.Where(gtor => gtor.Owner.Id == userId && !gtor.IsNPC && gtor.Health > 0).ToList();
+            return db.Gladiators.Where(gtor => gtor.Owner.Id == userId && !gtor.IsNPC && gtor.Health > 0)
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent").ToList();
         }
-        
+
+        public static List<Gladiator> GetOpponents()
+        {
+            //Get all opponents
+            return db.Gladiators.Where(gtor => gtor.IsNPC)
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent").ToList();
+        }
+
         public static List<Gladiator> GetOpponents(string userId)
         {
-            //Get all opponents or from specified user
-            return userId == null ? db.Gladiators.Where(gtor => gtor.IsNPC).ToList()
-                                  : db.Gladiators.Where(gtor => gtor.Owner.Id == userId && gtor.IsNPC).ToList();
+            //Get opponents made by the specified user
+            return db.Gladiators.Where(gtor => gtor.Owner.Id == userId && gtor.IsNPC)
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent").ToList();
         }
 
         public static Match GetActiveMatch(string userId)
         {
             //Gets a match where there is no winner and the user is participating, or null if there is none
-            return db.Matches.FirstOrDefault(match => match.Winner == null && match.Gladiator.Owner.Id == userId);
+            return db.Matches.Where(match => match.Winner == null
+                && match.Gladiator.Owner.Id == userId)
+                .Include("Turns").FirstOrDefault();
         }
 
         public static List<Gladiator> GetRandomOpponents(int amount = 10)
         {
-            List<Gladiator> opponents = GetOpponents(null);
+            List<Gladiator> opponents = GetOpponents();
             List<Gladiator> randoms = new List<Gladiator>();
 
             //Take random opponents until the amount is hit or we run out of opponents
@@ -43,6 +54,14 @@ namespace GameProject.Models
                 opponents.RemoveAt(i);
             }
             return randoms;
+        }
+
+        public static void DoTurn(Match match)
+        {
+            CombatHandler.ExecuteTurn(match);
+            //Update the match
+            db.Entry(match).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public static HttpStatusCodeResult CreateGladiator(GladiatorBindingModel model, string userId)

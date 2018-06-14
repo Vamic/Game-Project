@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -34,6 +35,32 @@ namespace GameProject.App_Start
 
                 var result = manager.Create(user, "admin1");
                 manager.AddToRole(user.Id, "Admin");
+
+                Gladiator billy = new Gladiator(new GladiatorBindingModel
+                {
+                    Name = "Billy Herrington",
+                    IsNPC = false
+
+                }, user.Id);
+                Gladiator mememan = new Gladiator(new GladiatorBindingModel
+                {
+                    Name = "Mememan",
+                    IsNPC = true
+
+                }, user.Id);
+
+                context.Gladiators.Add(billy);
+                context.Gladiators.Add(mememan);
+                context.SaveChanges();
+
+                Match match = new Match(new MatchBindingModel
+                {
+                    GladiatorID = billy.Id,
+                    OpponentID = mememan.Id
+                });
+
+                context.Matches.Add(match);
+                context.SaveChanges();
             }
         }
     }

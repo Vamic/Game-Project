@@ -16,6 +16,10 @@ textarea {
     max-width: 280px;
 }
 
+.block {
+    display: block;
+}
+
 .gladiator-col-container {
     margin-top: 20px;
     padding: 0, 2%;
