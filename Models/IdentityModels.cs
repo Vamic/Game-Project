@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -25,6 +26,11 @@ namespace GameProject.Models
         public int Wins { get; set; }
         public int Losses { get; set; }
         public int Deaths { get; set; }
+                
+        public void GainExp(int exp)
+        {
+            Experience += exp;
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

@@ -18,7 +18,12 @@ else
         </div>
         <div class="col-sm-6">
             <h2>@title</h2>
-            <div>battlelog</div>
+            <div>
+                @for(int i = Model.Turns.Count-1; i >= 0 && i >= Model.Turns.Count - 10; i--)
+                {
+                    @Html.Partial("_TurnDisplay", Model.Turns[i]);
+                }
+            </div>
         </div>
         <div class="col-sm-3">
             @Html.Partial("_GladiatorDisplay", new CombatGladiatorDisplayViewModel { Gladiator = Model.Opponent, IsDead = opntDead })

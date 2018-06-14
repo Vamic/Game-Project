@@ -56,9 +56,17 @@ namespace GameProject.Models
             return randoms;
         }
 
-        public static void DoTurn(Match match)
+        public static void AttackTurn(Match match)
         {
             CombatHandler.ExecuteTurn(match);
+            //Update the match
+            db.Entry(match).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        internal static void YieldTurn(Match match)
+        {
+            CombatHandler.AttemptYield(match);
             //Update the match
             db.Entry(match).State = EntityState.Modified;
             db.SaveChanges();

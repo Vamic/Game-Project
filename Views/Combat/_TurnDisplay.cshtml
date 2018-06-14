@@ -1,0 +1,14 @@
+﻿@model Turn
+@{ 
+
+}
+<div>
+    @if (Model.Yielded)
+    {
+        @:<strong>@Model.Attacker.Name</strong> pleaded for their life, <strong>@Model.Reciever.Name</strong> @(Model.Final ? "accepted" : "did not reply").
+    }
+    else
+    {
+        @:<strong>@Model.Attacker.Name</strong> dealt @Model.Damage damage to <strong>@Model.Reciever.Name</strong>. @(Model.Final ? "A killing blow" : "")
+    }
+</div>

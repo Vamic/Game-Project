@@ -50,10 +50,16 @@ namespace GameProject.Models
             }
         }
 
-        public Gladiator()
+        public void Reset()
         {
             Level = 1;
+            Experience = 0;
             MaxHealth = Health = 100;
+        }
+
+        public Gladiator()
+        {
+            Reset();
         }
 
         public Gladiator(int id)
@@ -71,6 +77,27 @@ namespace GameProject.Models
         internal void TakeDamage(int damage)
         {
             Health -= damage;
+        }
+
+        public void LevelUp()
+        {
+            Level++;
+            MaxHealth += 10;
+            //Heal up to 50% max health if below 50%
+            Health = Health > ((double)MaxHealth / 2) ? Health : (int)((double)MaxHealth / 2);
+        }
+
+        public void GainExp(int exp)
+        {
+            Experience += exp;
+            //Add a level per 1000 experience
+            int gainedLevels = (int)((double)Experience / 1000);
+            for (int i = 0; i < gainedLevels; i++)
+            {
+                LevelUp();
+            }
+            //Remove any multiple of 1000
+            Experience = Experience % 1000;
         }
 
         public void Update(GladiatorBindingModel model)

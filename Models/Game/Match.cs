@@ -40,13 +40,26 @@ namespace GameProject.Models
             OpponentID = model.OpponentID;
         }
 
-        public void ExecuteTurn(int damage, int roll)
+        public void ExecuteTurn(int damage, int roll, bool lethal)
         {
             int attacker = NextAttacker.Id;
             int reciever = attacker == Gladiator.Id ? Opponent.Id : Gladiator.Id;
             Turn nextTurn = new Turn(this, attacker, reciever);
             nextTurn.Damage = damage;
             nextTurn.Roll = roll;
+            nextTurn.Final = lethal;
+            Turns.Add(nextTurn);
+            NextAttackerID = reciever;
+        }
+
+        internal void ExecuteTurn(bool yieldSuccess, int roll)
+        {
+            int attacker = NextAttacker.Id;
+            int reciever = attacker == Gladiator.Id ? Opponent.Id : Gladiator.Id;
+            Turn nextTurn = new Turn(this, attacker, reciever);
+            nextTurn.Yielded = true;
+            nextTurn.Roll = roll;
+            nextTurn.Final = yieldSuccess;
             Turns.Add(nextTurn);
             NextAttackerID = reciever;
         }

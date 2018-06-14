@@ -14,7 +14,11 @@ namespace GameProject.Models
         public int Damage { get; set; }
 
         public int Roll { get; set; }
-        
+
+        public bool Yielded { get; set; }
+
+        public bool Final { get; set; }
+
         public Match Match { get; set; }
         
         public int? AttackerID { get; set; }

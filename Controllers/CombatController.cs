@@ -62,10 +62,33 @@ namespace GameProject.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new string[] { "Not user's turn." });
             }
-            GladiatorHandler.DoTurn(match);
+            GladiatorHandler.AttackTurn(match);
             //Make opponent attack back
-            if(match.Opponent.IsNPC)
-                GladiatorHandler.DoTurn(match);
+            if(match.Winner == null && match.Opponent.IsNPC)
+                GladiatorHandler.AttackTurn(match);
+
+            return PartialView("Index", match);
+        }
+
+        [HttpPost]
+        public ActionResult Yield()
+        {
+            string userId = User.Identity.GetUserId();
+            Match match = GladiatorHandler.GetActiveMatch(userId);
+            if (match == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new string[] { "Tried to yield when there's no match." });
+            }
+            if (match.NextAttacker.Owner.Id != userId)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new string[] { "Not user's turn." });
+            }
+            GladiatorHandler.YieldTurn(match);
+            //If npc didnt accept the yield, attack
+            if (match.Winner == null && match.NextAttacker.IsNPC)
+                GladiatorHandler.AttackTurn(match);
 
             return PartialView("Index", match);
         }

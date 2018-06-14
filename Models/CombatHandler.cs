@@ -31,15 +31,44 @@ namespace GameProject.Models
             Gladiator reciever = match.NextAttacker.Id == match.Gladiator.Id ? match.Opponent : match.Gladiator;
             (int damage, int roll) = CalculateDamage(attacker);
             reciever.TakeDamage(damage);
+            bool recieverDied = reciever.Health < 1;
             //Check if reciever died
-            if (reciever.Health < 1)
+            if (recieverDied)
             {
                 match.Winner = attacker;
-                //Restore NPCs to full health on defeat so you can fight them again
+                //Restore NPCs to full health on match end
+                if (reciever.IsNPC)
+                {
+                    //Reset levels on defeat
+                    reciever.Reset();
+                }
+                else if (attacker.IsNPC)
+                    attacker.Health = attacker.MaxHealth;
+                int exp = (1 + reciever.Level - attacker.Level) * 500;
+                attacker.GainExp(exp);
+                if (attacker.IsNPC)
+                    reciever.Owner.GainExp(50);
+                else
+                    attacker.Owner.GainExp(100);
+            }
+            match.ExecuteTurn(damage, roll, recieverDied);
+        }
+
+        public static void AttemptYield(Match match)
+        {
+            Gladiator attacker = match.NextAttacker;
+            Gladiator reciever = match.NextAttacker.Id == match.Gladiator.Id ? match.Opponent : match.Gladiator;
+            int roll = RNG.Next(100);
+            bool success = roll < 50;
+            if (success)
+            {
+                match.Winner = reciever;
+                int exp = (1 + reciever.Level - attacker.Level) * 250;
+                reciever.GainExp(exp);
                 if (reciever.IsNPC)
                     reciever.Health = reciever.MaxHealth;
             }
-            match.ExecuteTurn(damage, roll);
+            match.ExecuteTurn(success, roll);
         }
     }
 }
