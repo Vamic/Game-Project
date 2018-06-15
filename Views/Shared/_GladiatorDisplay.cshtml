@@ -1,0 +1,31 @@
+﻿@model GladiatorDisplayViewModel
+@{ 
+    int gtorHealthPercentage = (int)Math.Ceiling(((double)Model.Gladiator.Health / Model.Gladiator.MaxHealth) * 100);
+    int gtorExpPercentage = (int)Math.Ceiling(((double)Model.Gladiator.Experience / 1000) * 100);
+    //100-50% green, 49-10% yellow, 9-0% red;
+    string gtorProgressType = gtorHealthPercentage < 50 ? gtorHealthPercentage < 10 ? "danger" : "warning" : "success";
+    string HPDisplay = Model.Gladiator.Health + " HP";
+    string ExpDisplay = Model.Gladiator.Experience + " EXP";
+    if (Model.IsDead)
+    {
+        //100% to make the entire bar red
+        gtorHealthPercentage = 100;
+        HPDisplay = "DEAD";
+        gtorProgressType = "danger";
+    }
+}
+<div>
+    <h2>@Model.Gladiator.Name @if (Model.ShowLevel) { <small>Level @Model.Gladiator.Level</small> }</h2>
+    @if (Model.ShowHPBar)
+    {
+        <div class="progress">
+            <div class="progress-bar progress-bar-@gtorProgressType" style="width:@gtorHealthPercentage%">@HPDisplay</div>
+        </div>
+    }
+    @if (Model.ShowExpBar)
+    {
+        <div class="progress">
+            <div class="progress-bar progress-bar-warning" style="width:@gtorExpPercentage%">@ExpDisplay</div>
+        </div>
+    }
+</div>

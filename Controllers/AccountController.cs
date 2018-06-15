@@ -333,6 +333,10 @@ namespace GameProject.Controllers
                 UserName = model.UserName,
                 Email = model.Email
             };
+            user.Score = new UserScore
+            {
+                User = user
+            };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
@@ -63,6 +64,13 @@ namespace GameProject.Models
             var claim = ((ClaimsIdentity)identity).FindFirst("DisplayName");
             // Test for null to avoid issues during local testing
             return (claim != null) ? claim.Value : string.Empty;
+        }
+
+        public static int GetLevel(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("Level");
+            // Test for null to avoid issues during local testing
+            return (claim != null) ? int.Parse(claim.Value) : -1;
         }
     }
 }

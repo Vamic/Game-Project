@@ -248,11 +248,12 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BindingModels.cs" />
+    <Compile Include="Models\Game\Score.cs" />
     <Compile Include="Models\Game\Turn.cs" />
     <Compile Include="Models\Game\Match.cs" />
     <Compile Include="Models\Game\Gladiator.cs" />
-    <Compile Include="Models\GladiatorBindingModel.cs" />
     <Compile Include="Models\CombatHandler.cs" />
+    <Compile Include="Models\UserHandler.cs" />
     <Compile Include="Models\GladiatorHandler.cs" />
     <Compile Include="Models\HelperExtensions.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -344,7 +345,7 @@
     <Content Include="Views\Gladiators\_Column.cshtml" />
     <Content Include="Views\Combat\Index.cshtml" />
     <Content Include="Views\Combat\_NewMatch.cshtml" />
-    <Content Include="Views\Combat\_GladiatorDisplay.cshtml" />
+    <Content Include="Views\Shared\_GladiatorDisplay.cshtml" />
     <Content Include="Views\Combat\_TurnDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>

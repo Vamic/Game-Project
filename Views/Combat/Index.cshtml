@@ -11,7 +11,7 @@ else
     bool opntDead = won && Model.Opponent.IsNPC || Model.Opponent.Health <= 0;
     <div class="row">
         <div class="col-sm-3">
-            @Html.Partial("_GladiatorDisplay", new CombatGladiatorDisplayViewModel { Gladiator = Model.Gladiator, IsDead = Model.Gladiator.Health <= 0 })
+            @Html.Partial("_GladiatorDisplay", new GladiatorDisplayViewModel { Gladiator = Model.Gladiator, ShowHPBar = true, IsDead = Model.Gladiator.Health <= 0 })
             <div>
                 @Ajax.ActionLink("Attack", "Attack", "Combat", htmlAttributes: new { @class = "btn btn-primary" }, httpMethod: "POST")
             </div>
@@ -26,7 +26,7 @@ else
             </div>
         </div>
         <div class="col-sm-3">
-            @Html.Partial("_GladiatorDisplay", new CombatGladiatorDisplayViewModel { Gladiator = Model.Opponent, IsDead = opntDead })
+            @Html.Partial("_GladiatorDisplay", new GladiatorDisplayViewModel { Gladiator = Model.Opponent, ShowHPBar = true, IsDead = opntDead })
             <div>
                 @Ajax.ActionLink("Yield", "Yield", "Combat", htmlAttributes: new { @class="btn btn-danger" }, httpMethod: "POST")
             </div>

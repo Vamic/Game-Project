@@ -5,6 +5,15 @@ using System.Web;
 
 namespace GameProject.Models
 {
+    public class HomePageViewModel
+    {
+        public ApplicationUser User { get; set; }
+        public List<Gladiator> Gladiators { get; set; }
+        
+        public List<UserScore> AllUserScores { get; set; }
+        public List<GladiatorScore> AllGladiatorScores { get; set; }
+    }
+
     public class GladiatorColumnViewModel
     {
         public Gladiator Gladiator { get; set; }
@@ -26,9 +35,15 @@ namespace GameProject.Models
         public Gladiator Opponent { get; set; }
     }
 
-    public class CombatGladiatorDisplayViewModel
+    public class GladiatorDisplayViewModel
     {
         public Gladiator Gladiator { get; set; }
+
+        public bool ShowHPBar { get; set; }
+
+        public bool ShowExpBar { get; set; }
+
+        public bool ShowLevel { get; set; }
 
         public bool IsDead { get; set; }
     }

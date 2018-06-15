@@ -11,7 +11,14 @@ namespace GameProject.Models
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
         private static Random RNG = new Random();
-        
+
+        internal static List<Gladiator> GetAllGladiators()
+        {
+            return db.Gladiators.Where(gtor => !gtor.IsNPC)
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent").Include("Score.Scores")
+                .ToList();
+        }
+
         public static List<Gladiator> GetCurrentGladiators(string userId)
         {
             //Gets all living gladiators for the user
@@ -38,12 +45,14 @@ namespace GameProject.Models
             //Gets a match where there is no winner and the user is participating, or null if there is none
             return db.Matches.Where(match => match.Winner == null
                 && match.Gladiator.Owner.Id == userId)
-                .Include("Turns").FirstOrDefault();
+                .Include("Turns").Include("Gladiator.Owner.Score.Scores")
+                .FirstOrDefault();
         }
 
         public static List<Gladiator> GetRandomOpponents(int amount = 10)
         {
-            List<Gladiator> opponents = GetOpponents();
+            //Get the opponents that are not in battle
+            List<Gladiator> opponents = GetOpponents().Where(o => !o.Matches.Any(m => m.Winner == null)).ToList();
             List<Gladiator> randoms = new List<Gladiator>();
 
             //Take random opponents until the amount is hit or we run out of opponents
@@ -75,12 +84,15 @@ namespace GameProject.Models
         public static HttpStatusCodeResult CreateGladiator(GladiatorBindingModel model, string userId)
         {
             Gladiator gladiator = new Gladiator(model, userId);
-
+            gladiator.Score = new GladiatorScore
+            {
+                Gladiator = gladiator
+            };
             //Count how many gladiators are still alive
             List<Gladiator> gladiators = GetCurrentGladiators(userId);
             int amountOfGladiators = gladiators.Where(gtor => gtor.Health > 0).Count();
 
-            if(amountOfGladiators < 3)
+            if(amountOfGladiators < 3 || gladiator.IsNPC)
             {
                 db.Gladiators.Add(gladiator);
                 db.SaveChanges();

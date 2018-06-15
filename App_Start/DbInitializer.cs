@@ -9,7 +9,7 @@ using System.Web;
 
 namespace GameProject.App_Start
 {
-    public class DbInitializer : System.Data.Entity.DropCreateDatabaseAlways<ApplicationDbContext>
+    public class DbInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -31,6 +31,11 @@ namespace GameProject.App_Start
                 var user = new ApplicationUser {
                     DisplayName = "Admin Guy",
                     UserName = "admin"
+                };
+
+                user.Score = new UserScore
+                {
+                    User = user
                 };
 
                 var result = manager.Create(user, "admin1");

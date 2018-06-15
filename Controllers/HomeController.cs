@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using GameProject.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,26 @@ namespace GameProject.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
-            if (Request.IsAjaxRequest())
+            if (!Request.IsAuthenticated)
             {
-                return Request.IsAuthenticated ? PartialView() : PartialView("Login");
+                if (Request.IsAjaxRequest())
+                    return PartialView("Login");
+                if (!Request.IsAjaxRequest())
+                    return View("Login");
             }
-            return Request.IsAuthenticated ? View() : View("Login");
+
+            string userId = User.Identity.GetUserId();
+            HomePageViewModel model = new HomePageViewModel
+            {
+                User = UserHandler.GetUser(userId),
+                Gladiators = GladiatorHandler.GetCurrentGladiators(userId),
+                AllUserScores = UserHandler.GetAllUsers().Select(u => u.Score).Where(s => s != null).ToList(),
+                AllGladiatorScores = GladiatorHandler.GetAllGladiators().Select(g => g.Score).Where(s => s != null).ToList()
+            };
+
+            if (Request.IsAjaxRequest())
+                return PartialView(model);
+            return View(model);
         }
 
         public ActionResult Navbar()

@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,16 +18,24 @@ namespace GameProject.Models
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("DisplayName", this.DisplayName));
-
+            userIdentity.AddClaim(new Claim("Level", this.Level.ToString()));
+            
             return userIdentity;
         }
 
         public string DisplayName { get; set; }
         public int Experience { get; set; }
+        public int Level {
+            get {
+                return 1 + (int)((double)Experience / 1000);
+            }
+        }
         public int Wins { get; set; }
         public int Losses { get; set; }
         public int Deaths { get; set; }
-                
+
+        public UserScore Score { get; set; }
+
         public void GainExp(int exp)
         {
             Experience += exp;
@@ -52,12 +61,22 @@ namespace GameProject.Models
                 .WithRequired(m => m.Opponent)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasRequired(f => f.Score)
+                .WithRequiredPrincipal(s => s.User);
+
+            modelBuilder.Entity<Gladiator>()
+                .HasRequired(f => f.Score)
+                .WithRequiredPrincipal(s => s.Gladiator);
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Gladiator> Gladiators { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<Turn> Turns { get; set; }
+        public DbSet<UserScore> UserScores { get; set; }
+        public DbSet<GladiatorScore> GladiatorScores { get; set; }
 
         public static ApplicationDbContext Create()
         {

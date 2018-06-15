@@ -1,5 +1,62 @@
-﻿<div class="jumbotron">
-    <h1>LOGGED IN CONTENT</h1>
+﻿@model HomePageViewModel
+@{ 
+    Model.AllUserScores.Sort((a, b) => a.Total > b.Total ? 1 : -1);
+    Model.AllGladiatorScores.Sort((a, b) => a.Total > b.Total ? 1 : -1);
+}
+<div class="col-sm-4">
+    @foreach (Gladiator gladiator in Model.Gladiators)
+    {
+        @Html.Partial("_GladiatorDisplay", new GladiatorDisplayViewModel { Gladiator = gladiator, ShowHPBar = true, ShowExpBar = true, ShowLevel = true })
+    }
 </div>
-<div class="row">
+<div class="col-sm-4">
+    <div class="row">
+        <p>
+            Your total score is @Model.User.Score.Total
+        </p>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < 5 && i < Model.AllUserScores.Count; i++)
+            {
+                UserScore score = Model.AllUserScores[i];
+                <tr>
+                    <td>@score.User.DisplayName</td>
+                    <td>@score.Total</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Gladiator</th>
+                    <th>Score</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5 && i < Model.AllGladiatorScores.Count; i++)
+                {
+                    GladiatorScore score = Model.AllGladiatorScores[i];
+                    <tr>
+                        <td>@score.Gladiator.Name</td>
+                        <td>@score.Total</td>
+                        <td>@score.Gladiator.Owner.DisplayName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    *@
 </div>
+<div class="col-sm-4">
+    @Model.User.DisplayName
+</div>
+<div class="clearfix"></div>

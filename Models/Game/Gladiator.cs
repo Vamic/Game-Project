@@ -18,6 +18,8 @@ namespace GameProject.Models
         public int Health { get; set; }
         public bool IsNPC { get; set; }
 
+        public GladiatorScore Score { get; set; }
+
         public string OwnerId { get; set; }
         public virtual ApplicationUser Owner { get; set; }
 

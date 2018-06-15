@@ -36,6 +36,9 @@ namespace GameProject.Models
             if (recieverDied)
             {
                 match.Winner = attacker;
+                int exp = (1 + reciever.Level - attacker.Level) * 500;
+                attacker.GainExp(exp);
+
                 //Restore NPCs to full health on match end
                 if (reciever.IsNPC)
                 {
@@ -44,12 +47,17 @@ namespace GameProject.Models
                 }
                 else if (attacker.IsNPC)
                     attacker.Health = attacker.MaxHealth;
-                int exp = (1 + reciever.Level - attacker.Level) * 500;
-                attacker.GainExp(exp);
+
                 if (attacker.IsNPC)
+                {
                     reciever.Owner.GainExp(50);
+                    reciever.Owner.Score.Add(50);
+                }
                 else
+                {
                     attacker.Owner.GainExp(100);
+                    attacker.Owner.Score.Add(100);
+                }
             }
             match.ExecuteTurn(damage, roll, recieverDied);
         }
@@ -67,6 +75,11 @@ namespace GameProject.Models
                 reciever.GainExp(exp);
                 if (reciever.IsNPC)
                     reciever.Health = reciever.MaxHealth;
+                else
+                {
+                    reciever.Owner.GainExp(25);
+                    reciever.Owner.Score.Add(25);
+                }
             }
             match.ExecuteTurn(success, roll);
         }
