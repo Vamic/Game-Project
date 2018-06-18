@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Gladiator>
+
+<div id="opponent-edit-form">
+    @Html.Partial("EditOpponent", new OpponentBindingModel())
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Experience</th>
+            <th>Max Health</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Gladiator opponent in Model)
+        {
+            string rowId = "opponent-row-" + opponent.Id;
+        <tr id="@rowId">
+            @Html.Partial("_OpponentRow", opponent)
+        </tr>
+        }
+    </tbody>
+</table>

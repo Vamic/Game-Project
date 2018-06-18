@@ -30,6 +30,23 @@ namespace GameProject.Models
         public bool IsNPC { get; set; }
     }
 
+    public class OpponentBindingModel
+    {
+        public int Id { get; set; }
+        [Required]
+        [Display(Name = "Gladiator Name")]
+        public string Name { get; set; }
+        [Required]
+        [Display(Name = "Experience")]
+        public int Experience { get; set; }
+        [Required]
+        [Display(Name = "Level")]
+        public int Level { get; set; }
+        [Required]
+        [Display(Name = "Max Health")]
+        public int MaxHealth { get; set; }
+    }
+
     public class MatchBindingModel
     {
         [Required]

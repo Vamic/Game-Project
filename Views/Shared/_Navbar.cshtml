@@ -19,6 +19,19 @@
                 <li>
                     @Ajax.ActionLink("Combat", "Index", "Combat")
                 </li>
+                @if (User.IsInRole("Admin"))
+                {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Admin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>@Ajax.ActionLink("Edit Opponents", "Opponents", "Admin", new { @class = "dropdown-item" })</li>
+                        <li>@Ajax.ActionLink("Edit Users", "Users", "Admin", new { @class = "dropdown-item" })</li>
+                        <li>@Ajax.ActionLink("Edit High Scores", "HighScores", "Admin", new { @class = "dropdown-item" })</li>
+                    </ul>
+                </li>
+                }
                 @*<li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>*@
             </ul>
             <ul class="nav navbar-nav navbar-right">

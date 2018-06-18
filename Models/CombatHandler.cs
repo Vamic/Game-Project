@@ -41,6 +41,7 @@ namespace GameProject.Models
             {
                 match.Winner = attacker;
                 int exp = (1 + reciever.Level - attacker.Level) * 500;
+                exp = exp < 0 ? 0 : exp;
                 attacker.GainExp(exp);
 
                 //Restore NPCs to full health on match end

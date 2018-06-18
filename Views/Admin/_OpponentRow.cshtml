@@ -1,0 +1,7 @@
+﻿@model Gladiator
+
+<td>@Model.Name</td>
+<td>@Model.Level</td>
+<td>@Model.Experience</td>
+<td>@Model.MaxHealth</td>
+<td>@Ajax.ActionLink("Edit", "EditOpponent", "Admin", new { @class = "btn btn-primary" }, new { id = Model.Id }, updateId: "opponent-edit-form")</td>

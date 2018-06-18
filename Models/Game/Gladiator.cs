@@ -108,5 +108,13 @@ namespace GameProject.Models
         {
             Name = model.Name;
         }
+
+        public void Update(OpponentBindingModel model)
+        {
+            Name = model.Name;
+            Level = model.Level;
+            Experience = model.Experience;
+            Health = MaxHealth = model.MaxHealth;
+        }
     }
 }

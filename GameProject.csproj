@@ -240,6 +240,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CombatController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GladiatorsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -348,6 +349,9 @@
     <Content Include="Views\Shared\_GladiatorDisplay.cshtml" />
     <Content Include="Views\Combat\_TurnDisplay.cshtml" />
     <Content Include="Views\Gladiators\Edit.cshtml" />
+    <Content Include="Views\Admin\EditOpponent.cshtml" />
+    <Content Include="Views\Admin\Opponents.cshtml" />
+    <Content Include="Views\Admin\_OpponentRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
