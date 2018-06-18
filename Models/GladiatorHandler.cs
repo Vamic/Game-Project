@@ -12,6 +12,14 @@ namespace GameProject.Models
         private static ApplicationDbContext db = new ApplicationDbContext();
         private static Random RNG = new Random();
 
+        public static Gladiator GetGladiator(int gladiatorId)
+        {
+            return db.Gladiators.Where(gtor => gtor.Id == gladiatorId)
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent")
+                .Include("Score.Scores").Include("Owner")
+                .FirstOrDefault();
+        }
+
         internal static List<Gladiator> GetAllGladiators()
         {
             return db.Gladiators.Where(gtor => !gtor.IsNPC)
@@ -108,7 +116,22 @@ namespace GameProject.Models
             }
         }
 
-        internal static void CreateMatch(MatchBindingModel model, string userId)
+        public static HttpStatusCodeResult EditGladiator(GladiatorBindingModel model, string userId, bool isAdmin)
+        {
+            Gladiator gladiator = GetGladiator(model.Id);
+            if(gladiator == null)
+                return new HttpStatusCodeResult(404, "No gladiator found.");
+            if (gladiator.Owner.Id != userId && !isAdmin)
+                return new HttpStatusCodeResult(401, "Tried to edit another players gladiator.");
+
+            gladiator.Update(model);
+            db.Entry(gladiator).State = EntityState.Modified;
+            db.SaveChanges();
+            
+            return new HttpStatusCodeResult(200, "Successfully Edited Gladiator.");
+        }
+
+        public static void CreateMatch(MatchBindingModel model, string userId)
         {
             Match match = new Match(model);
 

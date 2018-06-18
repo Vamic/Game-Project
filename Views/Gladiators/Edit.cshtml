@@ -1,0 +1,15 @@
+﻿@model GladiatorBindingModel
+
+@using (Ajax.BeginForm("Edit", "Gladiators", new AjaxOptions { OnComplete = "onEdit" }))
+{
+    @Html.AntiForgeryToken();
+    <div class="gladiator-col">
+        <div>
+            <label>Name</label>
+            @Html.EditorFor(m => Model.Name)
+        </div>
+        <div>
+            <input class="btn btn-primary" type="submit" value="Edit" />
+        </div>
+    </div>
+}

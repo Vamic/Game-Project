@@ -347,6 +347,7 @@
     <Content Include="Views\Combat\_NewMatch.cshtml" />
     <Content Include="Views\Shared\_GladiatorDisplay.cshtml" />
     <Content Include="Views\Combat\_TurnDisplay.cshtml" />
+    <Content Include="Views\Gladiators\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

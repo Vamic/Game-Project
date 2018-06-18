@@ -3,6 +3,7 @@
 @using (Ajax.BeginForm("PostCreate", "Gladiators", new AjaxOptions { OnComplete = "onCreate" }))
 {
     @Html.AntiForgeryToken();
+    @Html.HiddenFor(m => Model.Id)
 <div class="gladiator-col">
     <div>
         <label>Name</label>

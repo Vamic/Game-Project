@@ -12,8 +12,8 @@ namespace GameProject.Models
     public static class HelperExtensions
     {
         public static MvcHtmlString ActionLink(this AjaxHelper ajaxHelper, string linkText, string actionName,
-            string controllerName = "Home", object htmlAttributes = null, string httpMethod = "GET",
-            string onComplete = null, string updateId = "page-content")
+            string controllerName = "Home", object htmlAttributes = null, object routeValues = null,
+            string httpMethod = "GET", string onComplete = null, string updateId = "page-content")
         {
             if (controllerName == "Account") controllerName = "api/" + controllerName;
             var repID = Guid.NewGuid().ToString();
@@ -28,7 +28,7 @@ namespace GameProject.Models
             {
                 @class = "page-link"
             };
-            var lnk = ajaxHelper.ActionLink(repID, actionName, controllerName, null, options, htmlAttributes);
+            var lnk = ajaxHelper.ActionLink(repID, actionName, controllerName, routeValues, options, htmlAttributes);
             return MvcHtmlString.Create(lnk.ToString().Replace(repID, linkText));
         }
 

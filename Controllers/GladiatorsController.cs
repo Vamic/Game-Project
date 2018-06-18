@@ -46,5 +46,33 @@ namespace GameProject.Controllers
             string userId = User.Identity.GetUserId();
             return GladiatorHandler.CreateGladiator(model, userId);
         }
+
+        public ActionResult Edit(int id)
+        {
+            return PartialView(new GladiatorBindingModel());
+        }
+
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "Id, Name, IsNPC")]GladiatorBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorList = ModelState.Values.SelectMany(m => m.Errors)
+                                 .Select(e => e.ErrorMessage)
+                                 .ToList();
+
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(errorList);
+            }
+            //Opponents can only be edited by admins.
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin)
+            {
+                model.IsNPC = false;
+            }
+
+            string userId = User.Identity.GetUserId();
+            return GladiatorHandler.EditGladiator(model, userId, isAdmin);
+        }
     }
 }
