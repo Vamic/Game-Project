@@ -47,12 +47,21 @@ namespace GameProject.App_Start
                     IsNPC = false
 
                 }, user.Id);
+                billy.Score = new GladiatorScore
+                {
+                    Gladiator = billy
+                };
+
                 Gladiator mememan = new Gladiator(new GladiatorBindingModel
                 {
                     Name = "Mememan",
                     IsNPC = true
 
                 }, user.Id);
+                mememan.Score = new GladiatorScore
+                {
+                    Gladiator = mememan
+                };
 
                 context.Gladiators.Add(billy);
                 context.Gladiators.Add(mememan);

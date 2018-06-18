@@ -20,6 +20,10 @@ namespace GameProject.Models
             {
                 damageMultiplier += 0.5f;
             }
+            if (attacker.IsNPC)
+            {
+                damageMultiplier -= 0.25f;
+            }
             int damage = (int)((roll + attacker.Level) * damageMultiplier);
             return (damage, roll);
         }
@@ -48,12 +52,13 @@ namespace GameProject.Models
                 else if (attacker.IsNPC)
                     attacker.Health = attacker.MaxHealth;
 
-                if (attacker.IsNPC)
+                //Award score
+                if (!reciever.IsNPC)
                 {
                     reciever.Owner.GainExp(50);
                     reciever.Owner.Score.Add(50);
                 }
-                else
+                if (!attacker.IsNPC)
                 {
                     attacker.Owner.GainExp(100);
                     attacker.Owner.Score.Add(100);

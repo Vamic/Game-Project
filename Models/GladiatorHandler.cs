@@ -15,7 +15,8 @@ namespace GameProject.Models
         internal static List<Gladiator> GetAllGladiators()
         {
             return db.Gladiators.Where(gtor => !gtor.IsNPC)
-                .Include("MatchesAsGladiator").Include("MatchesAsOpponent").Include("Score.Scores")
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent")
+                .Include("Score.Scores").Include("Owner")
                 .ToList();
         }
 
@@ -37,7 +38,8 @@ namespace GameProject.Models
         {
             //Get opponents made by the specified user
             return db.Gladiators.Where(gtor => gtor.Owner.Id == userId && gtor.IsNPC)
-                .Include("MatchesAsGladiator").Include("MatchesAsOpponent").ToList();
+                .Include("MatchesAsGladiator").Include("MatchesAsOpponent")
+                .ToList();
         }
 
         public static Match GetActiveMatch(string userId)
@@ -45,7 +47,8 @@ namespace GameProject.Models
             //Gets a match where there is no winner and the user is participating, or null if there is none
             return db.Matches.Where(match => match.Winner == null
                 && match.Gladiator.Owner.Id == userId)
-                .Include("Turns").Include("Gladiator.Owner.Score.Scores")
+                .Include("Turns").Include("Opponent.Score.Scores")
+                .Include("Gladiator.Score.Scores").Include("Gladiator.Owner.Score.Scores")
                 .FirstOrDefault();
         }
 

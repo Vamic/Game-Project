@@ -30,8 +30,8 @@ namespace GameProject.Models
         public List<Match> Matches {
             get {
                 var matches = new List<Match>();
-                matches.AddRange(MatchesAsGladiator);
-                matches.AddRange(MatchesAsOpponent);
+                if (MatchesAsGladiator != null) matches.AddRange(MatchesAsGladiator);
+                if (MatchesAsOpponent != null) matches.AddRange(MatchesAsOpponent);
                 return matches;
             }
         }
@@ -85,6 +85,7 @@ namespace GameProject.Models
         {
             Level++;
             MaxHealth += 10;
+            Score.Add(Level * 10);
             //Heal up to 50% max health if below 50%
             Health = Health > ((double)MaxHealth / 2) ? Health : (int)((double)MaxHealth / 2);
         }
@@ -92,6 +93,7 @@ namespace GameProject.Models
         public void GainExp(int exp)
         {
             Experience += exp;
+            Score.Add(exp/10);
             //Add a level per 1000 experience
             int gainedLevels = (int)((double)Experience / 1000);
             for (int i = 0; i < gainedLevels; i++)
