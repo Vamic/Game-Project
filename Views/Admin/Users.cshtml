@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ApplicationUser>
+
+<div id="user-edit-form">
+    @Html.Partial("EditUser", new UserBindingModel())
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Display Name</th>
+            <th>User Name</th>
+            <th>Experience</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ApplicationUser user in Model)
+        {
+            string rowId = "user-row-" + user.Id;
+        <tr id="@rowId">
+            @Html.Partial("_UserRow", user)
+        </tr>
+        }
+    </tbody>
+</table>

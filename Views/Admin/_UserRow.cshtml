@@ -1,0 +1,6 @@
+﻿@model ApplicationUser
+
+<td>@Model.DisplayName</td>
+<td>@Model.UserName</td>
+<td>@Model.Experience</td>
+<td>@Ajax.ActionLink("Edit", "EditUser", "Admin", new { @class = "btn btn-primary" }, new { id = Model.Id }, updateId: "user-edit-form")</td>

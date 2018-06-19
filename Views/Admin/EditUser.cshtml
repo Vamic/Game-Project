@@ -1,15 +1,14 @@
-﻿@model OpponentBindingModel
+﻿@model UserBindingModel
 @{
-    string rowId = "opponent-row-" + Model.Id;
-    using (Ajax.BeginForm("EditOpponent", "Admin", updateId: rowId))
+    string rowId = "user-row-" + Model.Id;
+    using (Ajax.BeginForm("EditUser", "Admin", updateId: rowId))
     {
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Level</th>
+                    <th>Display Name</th>
+                    <th>User Name</th>
                     <th>Experience</th>
-                    <th>Max Health</th>
                     <th></th>
                 </tr>
             </thead>
@@ -17,10 +16,9 @@
                 <tr>
                     @Html.HiddenFor(m => Model.Id)
                     @Html.AntiForgeryToken()
-                    <td>@Html.EditorFor(m => Model.Name)</td>
-                    <td>@Html.EditorFor(m => Model.Level)</td>
+                    <td>@Html.EditorFor(m => Model.DisplayName)</td>
+                    <td>@Html.EditorFor(m => Model.UserName)</td>
                     <td>@Html.EditorFor(m => Model.Experience)</td>
-                    <td>@Html.EditorFor(m => Model.MaxHealth)</td>
                     <td>
                         <input class="btn btn-primary" type="submit" value="Save" />
                     </td>

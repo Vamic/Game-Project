@@ -20,7 +20,7 @@ namespace GameProject.Models
                 .FirstOrDefault();
         }
 
-        internal static List<Gladiator> GetAllGladiators()
+        public static List<Gladiator> GetAllGladiators()
         {
             return db.Gladiators.Where(gtor => !gtor.IsNPC)
                 .Include("MatchesAsGladiator").Include("MatchesAsOpponent")

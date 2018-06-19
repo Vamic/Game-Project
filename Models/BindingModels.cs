@@ -47,6 +47,20 @@ namespace GameProject.Models
         public int MaxHealth { get; set; }
     }
 
+    public class UserBindingModel
+    {
+        public string Id { get; set; }
+        [Required]
+        [Display(Name = "Display Name")]
+        public string DisplayName { get; set; }
+        [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+        [Required]
+        [Display(Name = "Experience")]
+        public int Experience { get; set; }
+    }
+
     public class MatchBindingModel
     {
         [Required]
