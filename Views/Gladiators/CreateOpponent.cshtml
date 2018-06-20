@@ -1,0 +1,23 @@
+﻿@model OpponentBindingModel
+
+@using (Ajax.BeginForm("CreateOpponent", "Gladiators", new AjaxOptions { OnComplete = "onCreate" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(m => Model.Id)
+    <div>
+        <label>Name</label>
+        @Html.EditorFor(m => Model.Name)
+    </div>
+    <div>
+        <label>Level</label>
+        @Html.EditorFor(m => Model.Level)
+    </div>
+    <div>
+        <label>Max Health</label>
+        @Html.EditorFor(m => Model.MaxHealth)
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Create" />
+    </div>
+}
+

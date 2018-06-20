@@ -61,7 +61,7 @@ namespace GameProject.Controllers
                 return Json(errorList);
             }
 
-            (HttpStatusCodeResult result, Gladiator opponent) = GladiatorHandler.EditGladiator(model);
+            (HttpStatusCodeResult result, Gladiator opponent) = GladiatorHandler.EditOpponent(model);
             if(result.StatusCode == 200)
             {
                 return PartialView("_OpponentRow", opponent);

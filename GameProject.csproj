@@ -249,6 +249,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BindingModels.cs" />
+    <Compile Include="Models\Game\Opponent.cs" />
     <Compile Include="Models\Game\Score.cs" />
     <Compile Include="Models\Game\Turn.cs" />
     <Compile Include="Models\Game\Match.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Views\Admin\Scores.cshtml" />
     <Content Include="Views\Admin\_ScoreRow.cshtml" />
     <Content Include="Views\Admin\_ScoreTable.cshtml" />
+    <Content Include="Views\Gladiators\CreateOpponent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,24 +1,15 @@
 ﻿@model GladiatorBindingModel
 
-@using (Ajax.BeginForm("PostCreate", "Gladiators", new AjaxOptions { OnComplete = "onCreate" }))
+@using (Ajax.BeginForm("Create", "Gladiators", new AjaxOptions { OnComplete = "onCreate" }))
 {
     @Html.AntiForgeryToken();
     @Html.HiddenFor(m => Model.Id)
-<div class="gladiator-col">
     <div>
         <label>Name</label>
         @Html.EditorFor(m => Model.Name)
     </div>
-    @if (User.IsInRole("Admin"))
-    {
-    <div>
-        @Html.EditorFor(m => Model.IsNPC)
-        <label>Create as Opponent</label>
-    </div>
-    }
     <div>
         <input class="btn btn-primary" type="submit" value="Create" />
     </div>
-</div>
 }
 

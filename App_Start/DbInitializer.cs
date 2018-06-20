@@ -43,19 +43,19 @@ namespace GameProject.App_Start
 
                 Gladiator billy = new Gladiator(new GladiatorBindingModel
                 {
-                    Name = "Billy Herrington",
-                    IsNPC = false
+                    Name = "Billy Herrington"
 
                 }, user.Id);
                 billy.Score = new GladiatorScore
                 {
                     Gladiator = billy
                 };
-                Gladiator mememan = new Gladiator(new GladiatorBindingModel
+                Opponent mememan = new Opponent(new OpponentBindingModel
                 {
                     Name = "Mememan",
-                    IsNPC = true
-
+                    MaxHealth = 50,
+                    Level = 1,
+                    Experience = 0
                 }, user.Id);
                 mememan.Score = new GladiatorScore
                 {

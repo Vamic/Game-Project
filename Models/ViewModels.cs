@@ -25,7 +25,7 @@ namespace GameProject.Models
     {
         public List<Gladiator> Gladiators { get; set; }
 
-        public List<Gladiator> Opponents { get; set; }
+        public List<Opponent> Opponents { get; set; }
     }
 
     public class CombatViewModel

@@ -48,7 +48,7 @@ namespace GameProject.Models
                 if (reciever.IsNPC)
                 {
                     //Reset levels on defeat
-                    reciever.Reset();
+                    (reciever as Opponent).Reset();
                 }
                 else if (attacker.IsNPC)
                     attacker.Health = attacker.MaxHealth;

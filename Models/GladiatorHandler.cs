@@ -35,17 +35,17 @@ namespace GameProject.Models
                 .Include("MatchesAsGladiator").Include("MatchesAsOpponent").ToList();
         }
 
-        public static List<Gladiator> GetOpponents()
+        public static List<Opponent> GetOpponents()
         {
             //Get all opponents
-            return db.Gladiators.Where(gtor => gtor.IsNPC)
+            return db.Set<Opponent>().Where(gtor => gtor.IsNPC)
                 .Include("MatchesAsGladiator").Include("MatchesAsOpponent").ToList();
         }
 
-        public static List<Gladiator> GetOpponents(string userId)
+        public static List<Opponent> GetOpponents(string userId)
         {
             //Get opponents made by the specified user
-            return db.Gladiators.Where(gtor => gtor.Owner.Id == userId && gtor.IsNPC)
+            return db.Set<Opponent>().Where(gtor => gtor.Owner.Id == userId && gtor.IsNPC)
                 .Include("MatchesAsGladiator").Include("MatchesAsOpponent")
                 .ToList();
         }
@@ -60,11 +60,11 @@ namespace GameProject.Models
                 .FirstOrDefault();
         }
 
-        public static List<Gladiator> GetRandomOpponents(int amount = 10)
+        public static List<Opponent> GetRandomOpponents(int amount = 10)
         {
             //Get the opponents that are not in battle
-            List<Gladiator> opponents = GetOpponents().Where(o => !o.Matches.Any(m => m.Winner == null)).ToList();
-            List<Gladiator> randoms = new List<Gladiator>();
+            List<Opponent> opponents = GetOpponents().Where(o => !o.Matches.Any(m => m.Winner == null)).ToList();
+            List<Opponent> randoms = new List<Opponent>();
 
             //Take random opponents until the amount is hit or we run out of opponents
             while(randoms.Count < amount && opponents.Count > 0)
@@ -116,6 +116,30 @@ namespace GameProject.Models
             }
         }
 
+        public static HttpStatusCodeResult CreateOpponent(OpponentBindingModel model, string userId)
+        {
+            Opponent gladiator = new Opponent(model, userId);
+            gladiator.Score = new GladiatorScore
+            {
+                Gladiator = gladiator
+            };
+            //Count how many gladiators are still alive
+            List<Gladiator> gladiators = GetCurrentGladiators(userId);
+            int amountOfGladiators = gladiators.Where(gtor => gtor.Health > 0).Count();
+
+            if (amountOfGladiators < 3 || gladiator.IsNPC)
+            {
+                db.Gladiators.Add(gladiator);
+                db.SaveChanges();
+
+                return new HttpStatusCodeResult(200, "Successfully created a new Gladiator.");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(400, "Too many gladiators still alive.");
+            }
+        }
+
         public static HttpStatusCodeResult EditGladiator(GladiatorBindingModel model, string userId, bool isAdmin)
         {
             Gladiator gladiator = GetGladiator(model.Id);
@@ -131,19 +155,17 @@ namespace GameProject.Models
             return new HttpStatusCodeResult(200, "Successfully Edited Gladiator.");
         }
 
-        public static (HttpStatusCodeResult result, Gladiator opponent) EditGladiator(OpponentBindingModel model)
+        public static (HttpStatusCodeResult result, Gladiator opponent) EditOpponent(OpponentBindingModel model)
         {
-            Gladiator gladiator = GetGladiator(model.Id);
-            if (gladiator == null)
-                return (new HttpStatusCodeResult(404, "No gladiator found."), null);
-            if (!gladiator.IsNPC)
-                return (new HttpStatusCodeResult(400, "Selected gladiator is not an NPC."), null);
+            Opponent opponent = GetGladiator(model.Id) as Opponent;
+            if (opponent == null)
+                return (new HttpStatusCodeResult(404, "No opponent found."), null);
 
-            gladiator.Update(model);
-            db.Entry(gladiator).State = EntityState.Modified;
+            opponent.Update(model);
+            db.Entry(opponent).State = EntityState.Modified;
             db.SaveChanges();
 
-            return (new HttpStatusCodeResult(200, "Successfully Edited Gladiator."), gladiator);
+            return (new HttpStatusCodeResult(200, "Successfully Edited Gladiator."), opponent);
         }
 
         public static void CreateMatch(MatchBindingModel model, string userId)

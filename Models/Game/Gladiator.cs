@@ -16,7 +16,7 @@ namespace GameProject.Models
         public int Experience { get; set; }
         public int MaxHealth { get; set; }
         public int Health { get; set; }
-        public bool IsNPC { get; set; }
+        public bool IsNPC { get; protected set; }
 
         public GladiatorScore Score { get; set; }
 
@@ -52,16 +52,11 @@ namespace GameProject.Models
             }
         }
 
-        public void Reset()
+        public Gladiator()
         {
             Level = 1;
             Experience = 0;
             MaxHealth = Health = 100;
-        }
-
-        public Gladiator()
-        {
-            Reset();
         }
 
         public Gladiator(int id)
@@ -72,7 +67,7 @@ namespace GameProject.Models
         public Gladiator(GladiatorBindingModel model, string ownerId) : this()
         {
             Name = model.Name;
-            IsNPC = model.IsNPC;
+            IsNPC = false;
             OwnerId = ownerId;
         }
 
@@ -107,14 +102,6 @@ namespace GameProject.Models
         public void Update(GladiatorBindingModel model)
         {
             Name = model.Name;
-        }
-
-        public void Update(OpponentBindingModel model)
-        {
-            Name = model.Name;
-            Level = model.Level;
-            Experience = model.Experience;
-            Health = MaxHealth = model.MaxHealth;
         }
     }
 }

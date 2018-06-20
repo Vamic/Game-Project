@@ -1,22 +1,11 @@
 ﻿@model GladiatorColumnViewModel
 
-<div class="col-sm-4 gladiator-col-container" id="@Model.ColumnId">
-    <div class="gladiator-col">
-        @if (Model.Gladiator != null)
-        {
-            @Html.Partial("_GladiatorDisplay", new GladiatorDisplayViewModel { Gladiator = Model.Gladiator, ShowHPBar = true, ShowExpBar = true, ShowLevel = true })
-            <div>
-                <p>Stats</p>
-                <p>Wins: @Model.Gladiator.Wins</p>
-                <p>Losses: @Model.Gladiator.Losses</p>
-            </div>
-            @Ajax.ActionLink("Edit", "Edit", "Gladiators",
-                                updateId: Model.ColumnId, htmlAttributes: new { @class = "btn btn-primary" },
-                                routeValues: new { id = Model.Gladiator.Id })
-        }
-        else
-        {
-            <h3>@Ajax.ActionLink("Create new", "Create", "Gladiators", updateId: Model.ColumnId, htmlAttributes: new { @class = "btn btn-primary" })</h3>
-        }
-    </div>
+@Html.Partial("_GladiatorDisplay", new GladiatorDisplayViewModel { Gladiator = Model.Gladiator, ShowHPBar = true, ShowExpBar = true, ShowLevel = true })
+<div>
+    <p>Stats</p>
+    <p>Wins: @Model.Gladiator.Wins</p>
+    <p>Losses: @Model.Gladiator.Losses</p>
 </div>
+@Ajax.ActionLink("Edit", "Edit", "Gladiators",
+                    updateId: Model.ColumnId, htmlAttributes: new { @class = "btn btn-primary" },
+                    routeValues: new { id = Model.Gladiator.Id })

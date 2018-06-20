@@ -1,10 +1,4 @@
 ﻿@model GladiatorOpponentsViewModel
-@if (User.IsInRole("Admin"))
-{
-    @*Add null in the first position to always have an option to create another Gladiator*@
-    Model.Opponents.Insert(0, null);
-}
-
 
 <h2>Gladiators</h2>
 
@@ -13,29 +7,52 @@
     {
         Gladiator gladiator = Model.Gladiators.Count > i ? Model.Gladiators[i] : null;
         string colId = "gladiator-col-" + i;
-        Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = gladiator, ColumnId = colId });
+        <div class="col-sm-4 gladiator-col-container" id="@colId">
+            <div class="gladiator-col">
+                @if (gladiator != null)
+                {
+                    Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = gladiator, ColumnId = colId });
+                }
+                else
+                {
+                    Html.RenderPartial("Create", new GladiatorBindingModel());
+                }
+            </div>
+        </div>
     }
 </div>
 
 @if (User.IsInRole("Admin"))
 {
+    @*Add null in the first position to always have an option to create another Gladiator*@
+    Model.Opponents.Insert(0, null);
     <h2>Opponents</h2>
     for (int i = 0; i < Model.Opponents.Count; i++)
     {
         @*New row after 3 gladiators*@
         if (i % 3 == 0)
         {
-            @:<div class="row">
-            }
+        @:<div class="row">
+        }
 
-            Gladiator opponent = Model.Opponents[i];
-            string colId = "opponent-col-" + i;
-            Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = opponent, ColumnId = colId });
-
-            @*Close row after 3 gladiators*@
-            if (i % 3 == 2 || i == Model.Opponents.Count - 1)
-            {
-            @:</div>
+        Opponent opponent = Model.Opponents[i];
+        string colId = "opponent-col-" + i;
+        <div class="col-sm-4 gladiator-col-container" id="@colId">
+            <div class="gladiator-col">
+                @if (opponent != null) {
+                    Html.RenderPartial("_Column", new GladiatorColumnViewModel { Gladiator = opponent, ColumnId = colId });
+                }
+                else
+                {
+                    Html.RenderPartial("CreateOpponent", new OpponentBindingModel());
+                }
+            </div>
+        </div>
+        @*Close row after 3 gladiators*@
+        if (i % 3 == 2 || i == Model.Opponents.Count - 1)
+        {
+        @:</div>
         }
     }
 }
+

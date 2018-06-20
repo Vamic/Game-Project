@@ -25,9 +25,6 @@ namespace GameProject.Models
         [Required]
         [Display(Name = "Gladiator Name")]
         public string Name { get; set; }
-        [Required]
-        [Display(Name = "Create as Opponent")]
-        public bool IsNPC { get; set; }
     }
 
     public class OpponentBindingModel
@@ -36,7 +33,6 @@ namespace GameProject.Models
         [Required]
         [Display(Name = "Gladiator Name")]
         public string Name { get; set; }
-        [Required]
         [Display(Name = "Experience")]
         public int Experience { get; set; }
         [Required]
