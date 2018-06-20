@@ -51,7 +51,6 @@ namespace GameProject.App_Start
                 {
                     Gladiator = billy
                 };
-
                 Gladiator mememan = new Gladiator(new GladiatorBindingModel
                 {
                     Name = "Mememan",

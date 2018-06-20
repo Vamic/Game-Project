@@ -23,7 +23,7 @@ namespace GameProject.Models
             Value = value;
         }
     }
-    public abstract class Score
+    public class Score
     {
         public int Id { get; set; }
 

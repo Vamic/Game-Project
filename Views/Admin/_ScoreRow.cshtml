@@ -1,0 +1,5 @@
+﻿@model ScoreRowViewModel
+
+<td>@Model.Name</td>
+<td>@Model.Score.Total</td>
+<td>@Ajax.ActionLink("Edit", "EditScore", "Admin", new { @class = "btn btn-primary" }, new { id = Model.Score.Id }, updateId: "score-edit-form")</td>

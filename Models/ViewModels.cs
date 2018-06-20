@@ -47,4 +47,11 @@ namespace GameProject.Models
 
         public bool IsDead { get; set; }
     }
+
+    public class ScoreRowViewModel
+    {
+        public string Name { get; set; }
+
+        public Score Score { get; set; }
+    }
 }

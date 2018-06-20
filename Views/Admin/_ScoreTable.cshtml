@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Score>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Score score in Model)
+        {
+            string name = score is UserScore ? (score as UserScore).User.DisplayName : (score as GladiatorScore).Gladiator.Name;
+            string rowId = "score-row-" + score.Id;
+            <tr id="@rowId">
+                @Html.Partial("_ScoreRow", new ScoreRowViewModel{ Name = name, Score = score })
+            </tr>
+        }
+    </tbody>
+</table>
+

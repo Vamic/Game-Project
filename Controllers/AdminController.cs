@@ -119,5 +119,42 @@ namespace GameProject.Controllers
                 return result;
             }
         }
+
+        public ActionResult Scores()
+        {
+            return PartialView(ScoreHandler.GetAllScores());
+        }
+
+        public ActionResult EditScore(int id)
+        {
+            Score score = ScoreHandler.GetScore(id);
+            if (score == null)
+                return RedirectToAction("Scores");
+
+            return PartialView(score);
+        }
+
+        [HttpPost]
+        public ActionResult AdjustScore(int id, int adjustment)
+        {
+            if (adjustment == 0)
+                return new HttpStatusCodeResult(400, "Adjustment cannot be 0");
+            (HttpStatusCodeResult result, Score score) = ScoreHandler.Add(id, adjustment);
+            if (result.StatusCode == 200)
+            {
+                return PartialView("EditScore", score);
+            }
+            else
+            {
+                return result;
+            }
+        }
+
+        [HttpDelete]
+        public ActionResult RemoveScoreItem(int scoreId, int scoreItemId)
+        {
+            HttpStatusCodeResult result = ScoreHandler.RemoveScoreItem(scoreItemId);
+                return result;
+        }
     }
 }

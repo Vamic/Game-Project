@@ -1,0 +1,53 @@
+﻿@model Score
+@{
+    using (Ajax.BeginForm("AdjustScore", "Admin", updateId: "score-edit-form"))
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Adjustment</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @Html.HiddenFor(m => Model.Id)
+                    @Html.AntiForgeryToken()
+                    <td><input type="number" name="adjustment" /></td>
+                    <td>
+                        <input class="btn btn-primary" type="submit" value="Adjust" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Value</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ScoreItem score in Model.Scores)
+            {
+                string rowId = "score-item-row-" + score.Id;
+                <tr id="@rowId">
+                    <td>@score.Value</td>
+                    <td>
+                        @score.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @Ajax.ActionLink("Remove", "RemoveScoreItem", new { scoreId = Model.Id, scoreItemId = score.Id }, new AjaxOptions
+                   {
+                       HttpMethod = "DELETE",
+                       UpdateTargetId = rowId,
+                       InsertionMode = InsertionMode.ReplaceWith
+                   })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

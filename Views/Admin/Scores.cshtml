@@ -1,0 +1,19 @@
+﻿@model List<Score>
+@{ 
+    List<Score> userScores = Model.Where(score => score is UserScore).ToList();
+    List<Score> gladiatorScores = Model.Except(userScores).ToList();
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        @Html.Partial("_ScoreTable", userScores)
+    </div>
+    <div class="col-sm-4">
+        <div id="score-edit-form">
+            @Html.Partial("EditScore", new Score())
+        </div>
+    </div>
+    <div class="col-sm-4">
+        @Html.Partial("_ScoreTable", gladiatorScores)
+    </div>
+</div>

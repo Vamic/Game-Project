@@ -62,12 +62,10 @@ namespace GameProject.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ApplicationUser>()
-                .HasRequired(f => f.Score)
-                .WithRequiredPrincipal(s => s.User);
+                .HasRequired(f => f.Score);
 
             modelBuilder.Entity<Gladiator>()
-                .HasRequired(f => f.Score)
-                .WithRequiredPrincipal(s => s.Gladiator);
+                .HasRequired(f => f.Score);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -75,8 +73,7 @@ namespace GameProject.Models
         public DbSet<Gladiator> Gladiators { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<Turn> Turns { get; set; }
-        public DbSet<UserScore> UserScores { get; set; }
-        public DbSet<GladiatorScore> GladiatorScores { get; set; }
+        public DbSet<Score> Scores { get; set; }
 
         public static ApplicationDbContext Create()
         {
