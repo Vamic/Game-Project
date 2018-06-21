@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using GameProject.Models;
 using Microsoft.AspNet.Identity;
@@ -11,26 +12,29 @@ namespace GameProject.Controllers
     [Authorize]
     public class CombatController : Controller
     {
-        public ActionResult Index()
+        async public Task<ActionResult> Index()
         {
             string userId = User.Identity.GetUserId();
-            Match match = GladiatorHandler.GetActiveMatch(userId);
+            Match match = await GladiatorHandler.GetActiveMatch(userId);
+            if (match == null)
+                return RedirectToAction("CreateMatch");
+
             return PartialView(match);
         }
 
-        public ActionResult CreateMatch()
+        async public Task<ActionResult> CreateMatch()
         {
             string userId = User.Identity.GetUserId();
             GladiatorOpponentsViewModel model = new GladiatorOpponentsViewModel
             {
-                Gladiators = GladiatorHandler.GetCurrentGladiators(userId),
-                Opponents = GladiatorHandler.GetRandomOpponents()
+                Gladiators = await GladiatorHandler.GetCurrentGladiators(userId),
+                Opponents = await GladiatorHandler.GetRandomOpponents()
             };
             return PartialView("_NewMatch", model);
         }
 
         [HttpPost]
-        public ActionResult CreateMatch([Bind(Include = "GladiatorID, OpponentID")]MatchBindingModel model)
+        async public Task<ActionResult> CreateMatch([Bind(Include = "GladiatorID, OpponentID")]MatchBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -43,15 +47,15 @@ namespace GameProject.Controllers
             }
 
             string userId = User.Identity.GetUserId();
-            GladiatorHandler.CreateMatch(model, userId);
+            await GladiatorHandler.CreateMatch(model, userId);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult Attack()
+        async public Task<ActionResult> Attack()
         {
             string userId = User.Identity.GetUserId();
-            Match match = GladiatorHandler.GetActiveMatch(userId);
+            Match match = await GladiatorHandler.GetActiveMatch(userId);
             if (match == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -62,19 +66,19 @@ namespace GameProject.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new string[] { "Not user's turn." });
             }
-            GladiatorHandler.AttackTurn(match);
+            await GladiatorHandler.AttackTurn(match);
             //Make opponent attack back
             if(match.Winner == null && match.Opponent.IsNPC)
-                GladiatorHandler.AttackTurn(match);
+                await GladiatorHandler.AttackTurn(match);
 
             return PartialView("Index", match);
         }
 
         [HttpPost]
-        public ActionResult Yield()
+        async public Task<ActionResult> Yield()
         {
             string userId = User.Identity.GetUserId();
-            Match match = GladiatorHandler.GetActiveMatch(userId);
+            Match match = await GladiatorHandler.GetActiveMatch(userId);
             if (match == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -85,10 +89,10 @@ namespace GameProject.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new string[] { "Not user's turn." });
             }
-            GladiatorHandler.YieldTurn(match);
+            await GladiatorHandler.YieldTurn(match);
             //If npc didnt accept the yield, attack
             if (match.Winner == null && match.NextAttacker.IsNPC)
-                GladiatorHandler.AttackTurn(match);
+                await GladiatorHandler.AttackTurn(match);
 
             return PartialView("Index", match);
         }

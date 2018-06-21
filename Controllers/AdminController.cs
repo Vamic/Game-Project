@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using GameProject.Models;
@@ -27,14 +28,14 @@ namespace GameProject.Controllers
             }
         }
 
-        public ActionResult Opponents()
+        async public Task<ActionResult> Opponents()
         {
-            return PartialView(GladiatorHandler.GetOpponents());
+            return PartialView(await GladiatorHandler.GetOpponents());
         }
 
-        public ActionResult EditOpponent(int id)
+        async public Task<ActionResult> EditOpponent(int id)
         {
-            Gladiator opponent = GladiatorHandler.GetGladiator(id);
+            Gladiator opponent = await GladiatorHandler.GetGladiator(id);
             if (opponent == null)
                 return RedirectToAction("Opponents");
             OpponentBindingModel model = new OpponentBindingModel
@@ -49,7 +50,7 @@ namespace GameProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditOpponent([Bind]OpponentBindingModel model)
+        async public Task<ActionResult> EditOpponent([Bind]OpponentBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +62,7 @@ namespace GameProject.Controllers
                 return Json(errorList);
             }
 
-            (HttpStatusCodeResult result, Gladiator opponent) = GladiatorHandler.EditOpponent(model);
+            (HttpStatusCodeResult result, Gladiator opponent) = await GladiatorHandler.EditOpponent(model);
             if(result.StatusCode == 200)
             {
                 return PartialView("_OpponentRow", opponent);
@@ -71,15 +72,15 @@ namespace GameProject.Controllers
             }
         }
 
-        public ActionResult Users()
+        async public Task<ActionResult> Users()
         {
-            List<ApplicationUser> users = UserHandler.GetAllUsers().Where(user => !UserManager.IsInRole(user.Id, "Admin")).ToList();
+            List<ApplicationUser> users = (await UserHandler.GetAllUsers()).Where(user => !UserManager.IsInRole(user.Id, "Admin")).ToList();
             return PartialView(users);
         }
 
-        public ActionResult EditUser(string id)
+        async public Task<ActionResult> EditUser(string id)
         {
-            ApplicationUser user = UserHandler.GetUser(id);
+            ApplicationUser user = await UserHandler.GetUser(id);
             if (user == null)
                 return RedirectToAction("Users");
             if (UserManager.IsInRole(user.Id, "Admin"))
@@ -95,7 +96,7 @@ namespace GameProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditUser([Bind]UserBindingModel model)
+        async public Task<ActionResult> EditUser([Bind]UserBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -109,7 +110,7 @@ namespace GameProject.Controllers
             if (UserManager.IsInRole(model.Id, "Admin"))
                 return new HttpStatusCodeResult(401, "Cannot edit admins");
 
-            (HttpStatusCodeResult result, ApplicationUser user) = UserHandler.EditUser(model);
+            (HttpStatusCodeResult result, ApplicationUser user) = await UserHandler.EditUser(model);
             if (result.StatusCode == 200)
             {
                 return PartialView("_UserRow", user);
@@ -120,14 +121,14 @@ namespace GameProject.Controllers
             }
         }
 
-        public ActionResult Scores()
+        async public Task<ActionResult> Scores()
         {
-            return PartialView(ScoreHandler.GetAllScores());
+            return PartialView(await ScoreHandler.GetAllScores());
         }
 
-        public ActionResult EditScore(int id)
+        async public Task<ActionResult> EditScore(int id)
         {
-            Score score = ScoreHandler.GetScore(id);
+            Score score = await ScoreHandler.GetScore(id);
             if (score == null)
                 return RedirectToAction("Scores");
 
@@ -135,11 +136,11 @@ namespace GameProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdjustScore(int id, int adjustment)
+        async public Task<ActionResult> AdjustScore(int id, int adjustment)
         {
             if (adjustment == 0)
                 return new HttpStatusCodeResult(400, "Adjustment cannot be 0");
-            (HttpStatusCodeResult result, Score score) = ScoreHandler.Add(id, adjustment);
+            (HttpStatusCodeResult result, Score score) = await ScoreHandler.Add(id, adjustment);
             if (result.StatusCode == 200)
             {
                 return PartialView("EditScore", score);
@@ -151,10 +152,10 @@ namespace GameProject.Controllers
         }
 
         [HttpDelete]
-        public ActionResult RemoveScoreItem(int scoreId, int scoreItemId)
+        async public Task<ActionResult> RemoveScoreItem(int scoreId, int scoreItemId)
         {
-            HttpStatusCodeResult result = ScoreHandler.RemoveScoreItem(scoreItemId);
-                return result;
+            HttpStatusCodeResult result = await ScoreHandler.RemoveScoreItem(scoreItemId);
+            return result;
         }
     }
 }

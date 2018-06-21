@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,19 +12,19 @@ namespace GameProject.Models
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
 
-        public static List<ApplicationUser> GetAllUsers()
+        async public static Task<List<ApplicationUser>> GetAllUsers()
         {
-            return db.Users.Include("Score.Scores").ToList();
-        }
-        
-        public static ApplicationUser GetUser(string userId)
-        {
-            return db.Users.Where(user => user.Id == userId).Include("Score.Scores").FirstOrDefault();
+            return await db.Users.Include("Score.Scores").ToListAsync();
         }
 
-        public static (HttpStatusCodeResult result, ApplicationUser user) EditUser(UserBindingModel model)
+        async public static Task<ApplicationUser> GetUser(string userId)
         {
-            ApplicationUser user = GetUser(model.Id);
+            return await db.Users.Where(user => user.Id == userId).Include("Score.Scores").FirstOrDefaultAsync();
+        }
+
+        async public static Task<(HttpStatusCodeResult result, ApplicationUser user)> EditUser(UserBindingModel model)
+        {
+            ApplicationUser user = await GetUser(model.Id);
             if (user == null)
                 return (new HttpStatusCodeResult(404, "No user found."), null);
 
@@ -31,7 +32,7 @@ namespace GameProject.Models
             user.UserName = model.UserName;
             user.Experience = model.Experience;
             db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return (new HttpStatusCodeResult(200, "Successfully Edited User."), user);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,38 +13,38 @@ namespace GameProject.Models
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
 
-        public static List<Score> GetAllScores()
+        async public static Task<List<Score>> GetAllScores()
         {
-            return db.Scores.Include("Scores").ToList<Score>();
-        }
-        
-        public static Score GetScore(int scoreId)
-        {
-            return db.Scores.Where(s => s.Id == scoreId).Include("Scores").FirstOrDefault();
+            return await db.Scores.Include("Scores").ToListAsync();
         }
 
-        public static ScoreItem GetScoreItem(int scoreItemId)
+        async public static Task<Score> GetScore(int scoreId)
         {
-            return db.Set<ScoreItem>().Find(scoreItemId);
+            return await db.Scores.Where(s => s.Id == scoreId).Include("Scores").FirstOrDefaultAsync();
         }
 
-        public static (HttpStatusCodeResult result, Score score) Add(int scoreId, int adjustment)
+        async public static Task<ScoreItem> GetScoreItem(int scoreItemId)
         {
-            Score score = GetScore(scoreId);
+            return await db.Set<ScoreItem>().FindAsync(scoreItemId);
+        }
+
+        async public static Task<(HttpStatusCodeResult result, Score score)> Add(int scoreId, int adjustment)
+        {
+            Score score = await GetScore(scoreId);
             if (score == null)
                 return (new HttpStatusCodeResult(404, "Score not found"), null);
             score.Add(adjustment);
             db.Entry(score).State = EntityState.Modified;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return (new HttpStatusCodeResult(200, "Successfully adjusted score"), score);
         }
 
-        public static HttpStatusCodeResult RemoveScoreItem(int scoreItemId)
+        async public static Task<HttpStatusCodeResult> RemoveScoreItem(int scoreItemId)
         {
-            ScoreItem scoreItem = GetScoreItem(scoreItemId);
+            ScoreItem scoreItem = await GetScoreItem(scoreItemId);
 
             db.Entry(scoreItem).State = EntityState.Deleted;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return new HttpStatusCodeResult(200, "Successfully removed ScoreItem");
         }
     }

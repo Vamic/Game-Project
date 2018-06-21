@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,7 +11,7 @@ namespace GameProject.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        async public Task<ActionResult> Index()
         {
             ViewBag.Title = "Home Page";
             if (!Request.IsAuthenticated)
@@ -24,10 +25,10 @@ namespace GameProject.Controllers
             string userId = User.Identity.GetUserId();
             HomePageViewModel model = new HomePageViewModel
             {
-                User = UserHandler.GetUser(userId),
-                Gladiators = GladiatorHandler.GetCurrentGladiators(userId),
-                AllUserScores = UserHandler.GetAllUsers().Select(u => u.Score).Where(s => s != null).ToList(),
-                AllGladiatorScores = GladiatorHandler.GetAllGladiators().Select(g => g.Score).Where(s => s != null).ToList()
+                User = await UserHandler.GetUser(userId),
+                Gladiators = await GladiatorHandler.GetCurrentGladiators(userId),
+                AllUserScores = (await UserHandler.GetAllUsers()).Select(u => u.Score).Where(s => s != null).ToList(),
+                AllGladiatorScores = (await GladiatorHandler.GetAllGladiators()).Select(g => g.Score).Where(s => s != null).ToList()
             };
 
             if (Request.IsAjaxRequest())

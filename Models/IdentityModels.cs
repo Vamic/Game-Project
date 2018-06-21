@@ -24,7 +24,7 @@ namespace GameProject.Models
         }
 
         public string DisplayName { get; set; }
-        public int Experience { get; set; }
+        public virtual int Experience { get; set; }
         public int Level {
             get {
                 return 1 + (int)((double)Experience / 1000);
