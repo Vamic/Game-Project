@@ -1,4 +1,16 @@
 ﻿@model Score
+@{ 
+    string title = "None";
+    if(Model is UserScore)
+    {
+        title = (Model as UserScore).User.DisplayName;
+    } else if (Model is GladiatorScore)
+    {
+        title = (Model as GladiatorScore).Gladiator.Name;
+    }
+}
+
+<h4>@title</h4>
 @{
     using (Ajax.BeginForm("AdjustScore", "Admin", updateId: "score-edit-form"))
     {

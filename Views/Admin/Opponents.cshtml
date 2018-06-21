@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<Gladiator>
 
+<h3>Selected</h3>
 <div id="opponent-edit-form">
     @Html.Partial("EditOpponent", new OpponentBindingModel())
 </div>
 
+<h3>Opponents</h3>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -18,9 +20,9 @@
         @foreach (Gladiator opponent in Model)
         {
             string rowId = "opponent-row-" + opponent.Id;
-        <tr id="@rowId">
-            @Html.Partial("_OpponentRow", opponent)
-        </tr>
+            <tr id="@rowId">
+                @Html.Partial("_OpponentRow", opponent)
+            </tr>
         }
     </tbody>
 </table>

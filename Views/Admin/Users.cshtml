@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<ApplicationUser>
 
+<h3>Selected</h3>
 <div id="user-edit-form">
     @Html.Partial("EditUser", new UserBindingModel())
 </div>
 
+<h3>Users</h3>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -17,9 +19,9 @@
         @foreach (ApplicationUser user in Model)
         {
             string rowId = "user-row-" + user.Id;
-        <tr id="@rowId">
-            @Html.Partial("_UserRow", user)
-        </tr>
+            <tr id="@rowId">
+                @Html.Partial("_UserRow", user)
+            </tr>
         }
     </tbody>
 </table>

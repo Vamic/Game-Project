@@ -1,6 +1,9 @@
 ﻿@model Match
 @if (Model == null)
 {
+    <div class="text-center">
+        <h2>Combat</h2>
+    </div>
     Html.RenderAction("CreateMatch");
 }
 else
@@ -17,9 +20,11 @@ else
             </div>
         </div>
         <div class="col-sm-6">
-            <h2>@title</h2>
+            <div class="text-center">
+                <h2>@title</h2>
+            </div>
             <div>
-                @for(int i = Model.Turns.Count-1; i >= 0 && i >= Model.Turns.Count - 10; i--)
+                @for (int i = Model.Turns.Count - 1; i >= 0 && i >= Model.Turns.Count - 10; i--)
                 {
                     @Html.Partial("_TurnDisplay", Model.Turns[i]);
                 }
@@ -28,7 +33,7 @@ else
         <div class="col-sm-3">
             @Html.Partial("_GladiatorDisplay", new GladiatorDisplayViewModel { Gladiator = Model.Opponent, ShowHPBar = true, IsDead = opntDead })
             <div>
-                @Ajax.ActionLink("Yield", "Yield", "Combat", htmlAttributes: new { @class="btn btn-danger" }, httpMethod: "POST")
+                @Ajax.ActionLink("Yield", "Yield", "Combat", htmlAttributes: new { @class = "btn btn-danger" }, httpMethod: "POST")
             </div>
         </div>
     </div>

@@ -1,13 +1,19 @@
 ﻿@model LoginBindingModel
-
-<h2>Login</h2>
-@using (Ajax.BeginForm(new AjaxOptions {
-    Url = "/Token",
-    OnComplete = "onToken"
-}))
-{
-    @Html.Hidden("grant_type", "password");
-    @Html.EditorForModel();
-    <input class="btn btn-primary" type="submit" value="Login" />
-}
-@Ajax.ActionLink("Register", "Register", htmlAttributes: new { @class = "btn btn-default" })
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4 text-center">
+        <h2>Login</h2>
+        @using (Ajax.BeginForm(new AjaxOptions
+        {
+            Url = "/Token",
+            OnComplete = "onToken"
+        }))
+        {
+            @Html.Hidden("grant_type", "password");
+            @Html.EditorForModel();
+            <br />
+            <input class="btn btn-primary" type="submit" value="Login" />
+        }
+        <br />
+        @Ajax.ActionLink("Register", "Register", htmlAttributes: new { @class = "btn btn-default" })
+    </div>
+</div>
